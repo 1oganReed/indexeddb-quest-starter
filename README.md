@@ -1,6 +1,6 @@
 # WM Quest: IndexedDB Save Data
 
-West-MEC Coding Year 2. The game is already built: make a hero, roll stats, explore, fight, find loot, level up.
+West-MEC Coding Year 2. The game is already built: roll your stats and place them, fight monsters with attacks, spells, skills, and items, grab the loot, and level up.
 **But nothing saves.** Your job is the save data: every hero, their attributes, powers, and inventory go into **IndexedDB**.
 
 Your packet's **DATA SPEC** tells you WHAT to save and what to name it. HOW is up to you.
@@ -44,7 +44,7 @@ You should see a gray line that says `openDB() is not built yet (Level 1)`. That
 Chrome DevTools (F12) > **Application** tab > **Storage** > **IndexedDB** > `questDB`.
 Click the refresh icon above the table after you change data.
 
-Or press **Check my data** at the bottom of the page.
+Or press **Check my data** on the main menu.
 
 ## Start over
 

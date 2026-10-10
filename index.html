@@ -24,67 +24,26 @@
   <header class="top-bar">
     <img src="./images/wm-coding-badge.png" alt="West-MEC Coding" class="badge">
     <p class="brand">WM <span>Quest</span></p>
-    <img src="./images/chevrons-lined-white.png" alt="" class="chevrons">
+    <button id="menu-button" type="button" class="btn btn-small btn-light" hidden>« Main menu</button>
   </header>
 
   <!-- Database status: game.js fills this in from openDB(). -->
   <p id="db-status" class="db-status">Checking the database...</p>
 
-  <main class="layout">
-
-    <!-- ===== Left: pick or make a hero ===== -->
-    <section class="panel tavern">
-      <h2>The Tavern</h2>
-
-      <form id="load-form" class="row">
-        <label class="grow">
-          Your heroes
-          <select id="hero-list"><option value="">No heroes yet</option></select>
-        </label>
-        <button type="submit" class="btn">Play »</button>
-      </form>
-      <p id="hero-list-error" class="error"></p>
-
-      <h3>New hero</h3>
-      <form id="create-form">
-        <div class="row">
-          <label class="grow">
-            Name
-            <input id="new-name" type="text" maxlength="16" placeholder="Hero name" required>
-          </label>
-          <label>
-            Class
-            <select id="new-class"></select>
-          </label>
-        </div>
-        <div id="rolled" class="attr-grid"></div>
-        <div class="row">
-          <button id="roll-button" type="button" class="btn btn-ghost">🎲 Roll stats</button>
-          <button type="submit" class="btn">Create hero</button>
-        </div>
-        <p id="create-error" class="error"></p>
-      </form>
+  <!-- ===================== SCREEN 1: Main menu ===================== -->
+  <main id="menu-screen" class="screen menu">
+    <section class="hero-banner">
+      <h1>WM <span>Quest</span></h1>
+      <p>Make a hero. Go into the dungeon. Come back rich (or don't come back).</p>
+      <button id="new-hero-button" type="button" class="btn btn-big">+ New hero</button>
     </section>
 
-    <!-- ===== Middle: the hero sheet (everything here comes from your database) ===== -->
-    <section id="sheet" class="panel sheet">
-      <p class="muted">Pick a hero in the Tavern, or make a new one.</p>
+    <section class="panel">
+      <h2>Your heroes</h2>
+      <ul id="hero-cards" class="hero-cards"><li class="muted">Loading...</li></ul>
     </section>
 
-    <!-- ===== Right: adventure ===== -->
-    <section class="panel adventure">
-      <h2>Adventure</h2>
-      <div class="row">
-        <button id="explore-button" type="button" class="btn" disabled>Explore »</button>
-        <button id="rest-button" type="button" class="btn btn-ghost" disabled>Rest</button>
-      </div>
-      <div id="event" class="event">Choose a hero to start.</div>
-
-      <h3>Journal</h3>
-      <ol id="journal" class="journal"><li class="muted">No entries yet.</li></ol>
-    </section>
-
-    <!-- ===== Spec check (for you AND your teacher) ===== -->
+    <!-- Spec check (for you AND your teacher) -->
     <section class="panel spec">
       <h2>Spec Check</h2>
       <div class="row">
@@ -93,7 +52,56 @@
       </div>
       <ul id="check-results" class="check-results"></ul>
     </section>
+  </main>
 
+  <!-- ===================== SCREEN 2: Make a hero ===================== -->
+  <main id="create-screen" class="screen create" hidden>
+    <section class="panel">
+      <h2>1. Name and class</h2>
+      <label>
+        Hero name
+        <input id="new-name" type="text" maxlength="16" placeholder="Hero name">
+      </label>
+      <div id="class-cards" class="class-cards"></div>
+    </section>
+
+    <section class="panel">
+      <h2>2. Roll and place your stats</h2>
+      <p class="muted">Roll 6 numbers, then <b>drag</b> each one onto the attribute you want. (Or click a number, then click an attribute.) Drag onto a filled one to swap.</p>
+      <div class="row">
+        <button id="roll-button" type="button" class="btn">🎲 Roll stats</button>
+        <button id="suggest-button" type="button" class="btn btn-ghost" disabled>Suggest for my class</button>
+      </div>
+      <div id="dice-pool" class="dice-pool"></div>
+      <div id="stat-slots" class="stat-slots"></div>
+    </section>
+
+    <section class="panel create-summary">
+      <h2>3. Ready?</h2>
+      <div id="create-preview" class="muted">Pick a class and place all 6 stats.</div>
+      <p id="create-error" class="error"></p>
+      <div class="row">
+        <button id="back-button" type="button" class="btn btn-ghost">« Back</button>
+        <button id="create-button" type="button" class="btn grow" disabled>Create hero »</button>
+      </div>
+    </section>
+  </main>
+
+  <!-- ===================== SCREEN 3: The game ===================== -->
+  <main id="game-screen" class="screen game" hidden>
+
+    <!-- Character sheet: everything here comes from your database. -->
+    <aside id="sheet" class="panel sheet"></aside>
+
+    <!-- The field: the story, the monster, and your choices. -->
+    <section class="field">
+      <div id="scene" class="scene">
+        <p id="scene-title" class="scene-title">The dungeon</p>
+        <div id="monster" class="monster" hidden></div>
+        <div class="story-wrap"><ol id="story" class="story"></ol></div>
+      </div>
+      <div id="actions" class="actions"></div>
+    </section>
   </main>
 
   <footer class="footer">West-MEC Coding · Year 2 · IndexedDB</footer>
