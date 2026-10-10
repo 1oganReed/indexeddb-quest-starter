@@ -1,0 +1,424 @@
+/* global.css: all the styling for WM Quest. You do not need to change this file. */
+
+:root {
+  --navy: #0c2340;
+  --navy-light: #163a63;
+  --orange: #f57e20;
+  --sunrise: #f6921e;
+  --flame: #ec1c24;
+  --cream: #fdf8f3;
+  --muted: #5a6475;
+  --green: #2e8b57;
+  --radius: 1rem;
+  --shadow: 0 6px 20px rgb(12 35 64 / 0.12);
+}
+
+* {
+  box-sizing: border-box;
+}
+
+/* hidden always wins, even on things that use display: flex or grid. */
+[hidden] {
+  display: none !important;
+}
+
+body {
+  margin: 0;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  background: var(--cream);
+  color: var(--navy);
+  font-family: "Barlow", system-ui, sans-serif;
+}
+
+h2,
+h3,
+.brand,
+.btn {
+  font-family: "Barlow Condensed", "Barlow", sans-serif;
+}
+
+/* ---------- Top bar ---------- */
+.top-bar {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 0.75rem 1rem;
+  background: var(--navy);
+  color: #ffffff;
+  border-bottom: 4px solid var(--orange);
+}
+
+.badge {
+  width: 2.5rem;
+}
+
+.brand {
+  margin: 0;
+  font-size: 1.6rem;
+  font-weight: 800;
+  font-style: italic;
+  text-transform: uppercase;
+}
+
+.brand span {
+  color: var(--orange);
+}
+
+.chevrons {
+  width: 3.5rem;
+  margin-left: auto;
+  opacity: 0.6;
+}
+
+/* ---------- Database status line ---------- */
+.db-status {
+  margin: 0;
+  padding: 0.5rem 1rem;
+  background: #ffffff;
+  border-bottom: 1px solid rgb(12 35 64 / 0.1);
+  color: var(--muted);
+  font-size: 0.95rem;
+}
+
+.db-status.connected {
+  color: var(--green);
+}
+
+.db-status::before {
+  content: "";
+  display: inline-block;
+  width: 0.6rem;
+  height: 0.6rem;
+  margin-right: 0.5rem;
+  border-radius: 50%;
+  background: rgb(12 35 64 / 0.25);
+}
+
+.db-status.connected::before {
+  background: var(--green);
+}
+
+/* ---------- Layout: stacked on phones, 3 columns on PC ---------- */
+.layout {
+  flex: 1;
+  width: 100%;
+  max-width: 80rem;
+  margin: 0 auto;
+  padding: 1rem;
+  display: grid;
+  gap: 1rem;
+  align-items: start;
+}
+
+@media (min-width: 1024px) {
+  .layout {
+    grid-template-columns: 19rem 1fr 21rem;
+  }
+
+  .spec {
+    grid-column: 1 / -1;
+  }
+}
+
+.panel {
+  background: #ffffff;
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
+  padding: 1rem;
+  min-width: 0;
+}
+
+.panel h2 {
+  margin: 0 0 0.75rem;
+  font-size: 1.5rem;
+  font-style: italic;
+  text-transform: uppercase;
+  border-bottom: 3px solid var(--orange);
+}
+
+.panel h3 {
+  margin: 1rem 0 0.5rem;
+  font-size: 1.15rem;
+  text-transform: uppercase;
+  color: var(--navy-light);
+}
+
+.row {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: end;
+  gap: 0.5rem;
+  margin-bottom: 0.5rem;
+}
+
+.grow {
+  flex: 1;
+  min-width: 0;
+}
+
+/* ---------- Forms and buttons ---------- */
+label {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+  font-weight: 600;
+  font-size: 0.9rem;
+}
+
+input,
+select {
+  font: inherit;
+  width: 100%;
+  padding: 0.45rem 0.6rem;
+  border: 2px solid rgb(12 35 64 / 0.15);
+  border-radius: 0.5rem;
+  color: var(--navy);
+  background: #ffffff;
+}
+
+input:focus,
+select:focus {
+  outline: none;
+  border-color: var(--orange);
+}
+
+.btn {
+  font-size: 1.1rem;
+  font-weight: 700;
+  font-style: italic;
+  text-transform: uppercase;
+  padding: 0.5rem 1rem;
+  border: 2px solid var(--navy);
+  border-radius: 0.5rem;
+  background: var(--navy);
+  color: #ffffff;
+  cursor: pointer;
+}
+
+.btn:hover {
+  border-color: var(--flame);
+  background: linear-gradient(90deg, var(--sunrise), var(--flame));
+}
+
+.btn:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+}
+
+.btn-small {
+  font-size: 0.9rem;
+  padding: 0.25rem 0.65rem;
+}
+
+.btn-ghost {
+  background: transparent;
+  color: var(--navy);
+}
+
+.btn-ghost:hover {
+  color: #ffffff;
+}
+
+/* ---------- Attributes ---------- */
+.attr-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 0.4rem;
+  margin: 0.5rem 0;
+}
+
+.attr {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 0.35rem;
+  border-radius: 0.5rem;
+  background: var(--cream);
+  border: 2px solid transparent;
+}
+
+.attr span {
+  font-size: 0.75rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+
+.attr b {
+  font-family: "Barlow Condensed", "Barlow", sans-serif;
+  font-size: 1.6rem;
+  line-height: 1.1;
+}
+
+.attr small {
+  color: var(--muted);
+  min-height: 1em;
+}
+
+.attr.main {
+  border-color: var(--orange);
+}
+
+/* ---------- Hero sheet ---------- */
+.hero-head {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  border-bottom: 3px solid var(--orange);
+  padding-bottom: 0.5rem;
+  margin-bottom: 0.75rem;
+}
+
+.hero-icon {
+  display: grid;
+  place-items: center;
+  width: 3.2rem;
+  height: 3.2rem;
+  border-radius: 0.75rem;
+  font-size: 1.8rem;
+  background-color: var(--sunrise);
+  background-image:
+    radial-gradient(rgb(255 255 255 / 0.28) 1.6px, transparent 1.8px),
+    linear-gradient(135deg, var(--sunrise), var(--flame));
+  background-size: 10px 10px, 100% 100%;
+}
+
+.hero-name {
+  margin: 0;
+  font-size: 1.8rem;
+  font-style: italic;
+  text-transform: uppercase;
+}
+
+.hero-head p {
+  margin: 0;
+}
+
+.bar-label {
+  margin: 0.4rem 0 0.15rem;
+  font-size: 0.85rem;
+  font-weight: 600;
+}
+
+.bar {
+  height: 0.6rem;
+  border-radius: 1rem;
+  background: rgb(12 35 64 / 0.1);
+  overflow: hidden;
+}
+
+.bar-fill {
+  height: 100%;
+}
+
+.bar-fill.hp {
+  background: linear-gradient(90deg, var(--flame), var(--sunrise));
+}
+
+.bar-fill.xp {
+  background: var(--navy-light);
+}
+
+.power-list,
+.item-list,
+.check-results {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.power-list li {
+  padding: 0.3rem 0;
+  border-bottom: 1px solid rgb(12 35 64 / 0.08);
+}
+
+.item-list li {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.3rem 0;
+  border-bottom: 1px solid rgb(12 35 64 / 0.08);
+}
+
+.item-icon {
+  font-size: 1.3rem;
+}
+
+/* ---------- Adventure ---------- */
+.event {
+  min-height: 5rem;
+  margin: 0.5rem 0;
+  padding: 0.75rem;
+  border-radius: 0.75rem;
+  background: var(--navy);
+  color: #ffffff;
+}
+
+.event p {
+  margin: 0 0 0.35rem;
+}
+
+.journal {
+  margin: 0;
+  padding-left: 1.25rem;
+  font-size: 0.9rem;
+}
+
+.journal li {
+  padding: 0.2rem 0;
+}
+
+/* ---------- Spec check ---------- */
+.check-results li {
+  padding: 0.2rem 0;
+}
+
+.check-results .pass {
+  color: var(--green);
+  font-weight: 600;
+}
+
+.check-results .fail {
+  color: var(--flame);
+  font-weight: 600;
+}
+
+.check-results .detail {
+  padding-left: 1.5rem;
+  font-size: 0.9rem;
+  color: var(--muted);
+}
+
+/* ---------- Messages ---------- */
+.muted {
+  color: var(--muted);
+}
+
+.journal li.muted {
+  list-style: none;
+  margin-left: -1.25rem;
+}
+
+.error {
+  margin: 0.25rem 0;
+  color: var(--flame);
+  font-size: 0.9rem;
+}
+
+.error:empty {
+  display: none;
+}
+
+.missing {
+  color: var(--flame);
+  font-weight: 700;
+}
+
+.footer {
+  padding: 1rem;
+  text-align: center;
+  font-size: 0.85rem;
+  color: var(--muted);
+}

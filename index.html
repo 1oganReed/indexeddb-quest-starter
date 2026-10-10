@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>WM Quest</title>
+  <link rel="icon" href="./images/wm-coding-badge.png">
+
+  <!-- Fonts: Barlow Condensed (headings) and Barlow (text), close to the West-MEC brand fonts. -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:ital,wght@0,600;0,700;1,700;1,800&family=Barlow:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+  <link rel="stylesheet" href="./global.css">
+
+  <script src="./data.js" defer></script>
+  <script src="./db.js" defer></script>
+  <script src="./game.js" defer></script>
+  <script src="./check.js" defer></script>
+</head>
+<body>
+
+  <!-- ===== Top bar ===== -->
+  <header class="top-bar">
+    <img src="./images/wm-coding-badge.png" alt="West-MEC Coding" class="badge">
+    <p class="brand">WM <span>Quest</span></p>
+    <img src="./images/chevrons-lined-white.png" alt="" class="chevrons">
+  </header>
+
+  <!-- Database status: game.js fills this in from openDB(). -->
+  <p id="db-status" class="db-status">Checking the database...</p>
+
+  <main class="layout">
+
+    <!-- ===== Left: pick or make a hero ===== -->
+    <section class="panel tavern">
+      <h2>The Tavern</h2>
+
+      <form id="load-form" class="row">
+        <label class="grow">
+          Your heroes
+          <select id="hero-list"><option value="">No heroes yet</option></select>
+        </label>
+        <button type="submit" class="btn">Play »</button>
+      </form>
+      <p id="hero-list-error" class="error"></p>
+
+      <h3>New hero</h3>
+      <form id="create-form">
+        <div class="row">
+          <label class="grow">
+            Name
+            <input id="new-name" type="text" maxlength="16" placeholder="Hero name" required>
+          </label>
+          <label>
+            Class
+            <select id="new-class"></select>
+          </label>
+        </div>
+        <div id="rolled" class="attr-grid"></div>
+        <div class="row">
+          <button id="roll-button" type="button" class="btn btn-ghost">🎲 Roll stats</button>
+          <button type="submit" class="btn">Create hero</button>
+        </div>
+        <p id="create-error" class="error"></p>
+      </form>
+    </section>
+
+    <!-- ===== Middle: the hero sheet (everything here comes from your database) ===== -->
+    <section id="sheet" class="panel sheet">
+      <p class="muted">Pick a hero in the Tavern, or make a new one.</p>
+    </section>
+
+    <!-- ===== Right: adventure ===== -->
+    <section class="panel adventure">
+      <h2>Adventure</h2>
+      <div class="row">
+        <button id="explore-button" type="button" class="btn" disabled>Explore »</button>
+        <button id="rest-button" type="button" class="btn btn-ghost" disabled>Rest</button>
+      </div>
+      <div id="event" class="event">Choose a hero to start.</div>
+
+      <h3>Journal</h3>
+      <ol id="journal" class="journal"><li class="muted">No entries yet.</li></ol>
+    </section>
+
+    <!-- ===== Spec check (for you AND your teacher) ===== -->
+    <section class="panel spec">
+      <h2>Spec Check</h2>
+      <div class="row">
+        <p class="muted grow">Compares what is really in questDB with the DATA SPEC in your packet. It only reads, never changes your data.</p>
+        <button id="check-button" type="button" class="btn btn-small">Check my data</button>
+      </div>
+      <ul id="check-results" class="check-results"></ul>
+    </section>
+
+  </main>
+
+  <footer class="footer">West-MEC Coding · Year 2 · IndexedDB</footer>
+</body>
+</html>
