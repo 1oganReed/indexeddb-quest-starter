@@ -285,8 +285,9 @@ select:focus {
   background-size: 10px 10px, 100% 100%;
 }
 
-.hero-name {
+.panel .hero-name {
   margin: 0;
+  border: none;
   font-size: 1.8rem;
   font-style: italic;
   text-transform: uppercase;

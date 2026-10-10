@@ -138,6 +138,7 @@ createForm.addEventListener("submit", async (event) => {
   } catch (error) {
     console.error(error);
   }
+  eventText.textContent = `${name} is ready.`;
   await log(`${name} the ${CLASSES[heroClass].label} begins their quest.`);
   await renderAll();
 });
