@@ -5,6 +5,12 @@ West-MEC Coding Year 2. The game is already built: roll your stats and place the
 
 Your packet's **DATA SPEC** tells you WHAT to save and what to name it. HOW is up to you.
 
+## The data at a glance
+
+Every store, every field, and who owns what. Your packet's DATA SPEC has the details.
+
+![questDB class diagram](./images/questdb-class-diagram.png)
+
 ## Setup
 
 1. Open the terminal: **PowerShell**, **Git Bash**, or **Command Prompt** (any one works).
