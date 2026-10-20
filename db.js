@@ -19,7 +19,25 @@ function promisify(request) {
 // Opens questDB. Version 1 has three stores: "heroes", "inventory", and "powers".
 // Gives back (a promise for) the open database.
 function openDB() {
-  throw new Error("openDB() is not built yet (Level 1)");
+  return new Promise((resolve, reject) => {
+    const request = indexedDB.open(DB_NAME, DB_VERSION);
+
+    request.onupgradeneeded = (event) => {
+      const db = event.target.result;
+      if (!db.objectStoreNames.contains("heroes")) {
+        db.createObjectStore("heroes", { keyPath: "name" });
+      }
+      if (!db.objectStoreNames.contains("inventory")) {
+        db.createObjectStore("inventory", { keyPath: "id" });
+      }
+      if (!db.objectStoreNames.contains("powers")) {
+        db.createObjectStore("powers", { keyPath: "id" });
+      }
+    };
+
+    request.onsuccess = () => resolve(request.result);
+    request.onerror = () => reject(request.error);
+  });
 }
 
 // ---------- Level 1: Heroes ----------
@@ -28,23 +46,32 @@ function openDB() {
 // Build a NEW hero record (see the DATA SPEC) and save it. Give back the record.
 // A name that is already taken should fail, not replace the old hero.
 async function createHero(name, heroClass, attributes) {
-  throw new Error("createHero() is not built yet (Level 1)");
+  
 }
 
 // name: a hero's name. Gives back that hero's record (or undefined).
 async function getHero(name) {
-  throw new Error("getHero() is not built yet (Level 1)");
+  const db = await openDB();
+  const store = db.transaction("heroes", "readonly").objectStore("heroes");
+
+  return promisify(store.get(name));
 }
 
 // Gives back an array of every hero record.
 async function getAllHeroes() {
-  throw new Error("getAllHeroes() is not built yet (Level 1)");
+  const db = await openDB();
+  const store = db.transaction("heroes", "readonly").objectStore("heroes");
+
+  return promisify(store.getAll());
 }
 
 // hero: a hero record that game.js changed (new hp, xp, level, or gold).
 // Save it over the old one.
 async function updateHero(hero) {
-  throw new Error("updateHero() is not built yet (Level 1)");
+  const db = await openDB();
+  const store = db.transaction("heroes", "readwrite").objectStore("heroes");
+
+  await promisify(store.put(hero));
 }
 
 // ---------- Level 2: Inventory ----------
