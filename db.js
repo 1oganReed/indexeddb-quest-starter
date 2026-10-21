@@ -46,7 +46,28 @@ function openDB() {
 // Build a NEW hero record (see the DATA SPEC) and save it. Give back the record.
 // A name that is already taken should fail, not replace the old hero.
 async function createHero(name, heroClass, attributes) {
-  
+  const db = await openDB();
+  const store = db.transaction("heroes", "readwrite").objectStore("heroes");
+
+  const existing = await promisify(store.get(name));
+  if (existing) {
+    throw new Error(`${name} is already taken, please choose another name.`);
+  }
+
+  const maxHp = 10 + modifier(attributes.constitution);
+  const hero = {
+    name,
+    heroClass,
+    level: 1,
+    xp: 0,
+    hp: maxHp,
+    maxHp,
+    gold: 0,
+    attributes,
+    createdAt: new Date().toISOString(),
+  };
+
+  return promisify(store.add(hero));
 }
 
 // name: a hero's name. Gives back that hero's record (or undefined).
@@ -79,18 +100,59 @@ async function updateHero(hero) {
 //   { itemId: "healing-potion", name: "Healing Potion", type: "potion", icon: "🧪" }
 // Not in that hero's bag yet? Save it with qty 1. Already there? Add 1 to qty.
 async function addItem(heroName, item) {
-  throw new Error("addItem() is not built yet (Level 2)");
+  const db = await openDB();
+  const store = db.transaction("inventory", "readwrite").objectStore("inventory");
+  const id = `${heroName}-${item.itemId}`;
+
+  const record = await promisify(store.get(id));
+  if (record) {
+    record.qty = record.qty + 1;
+    await promisify(store.put(record));
+    return record;
+  }
+
+  const newRecord = {
+    id,
+    hero: heroName,
+    itemId: item.itemId,
+    name: item.name,
+    type: item.type,
+    icon: item.icon,
+    qty: 1,
+  };
+
+  await promisify(store.add(newRecord));
+  return newRecord;
 }
 
 // heroName: whose bag. Gives back ONLY that hero's items.
 async function getInventory(heroName) {
-  throw new Error("getInventory() is not built yet (Level 2)");
+  const db = await openDB();
+  const store = db.transaction("inventory", "readonly").objectStore("inventory");
+  const all = await promisify(store.getAll());
+
+  return all.filter((item) => item.hero === heroName);
 }
 
 // heroName: whose bag. itemId: which item, like "healing-potion".
 // Takes 1 away from qty. At 0, the item leaves the bag.
 async function removeItem(heroName, itemId) {
-  throw new Error("removeItem() is not built yet (Level 2)");
+  const db = await openDB();
+  const store = db.transaction("inventory", "readwrite").objectStore("inventory");
+  const id = `${heroName}-${itemId}`;
+  const record = await promisify(store.get(id));
+
+  if (!record) {
+    throw new Error(`${heroName} doesn't have a ${itemId}.`);
+  }
+
+  record.qty = record.qty - 1;
+  if (record.qty <= 0) {
+    await promisify(store.delete(id));
+    return;
+  }
+
+  await promisify(store.put(record));
 }
 
 // ---------- Level 2: Powers ----------
